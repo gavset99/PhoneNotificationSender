@@ -143,6 +143,11 @@ public class FriendsActivity extends AppCompatActivity {
         final String nUsername = usernameEditText.getText().toString();
 
         if(!nUsername.equals("")){
+            List<UserInfoPackage> friends = StaticHolder.currentUser.friends;
+            for(int i = 0; i < friends.size(); i++){
+                if(nUsername.equals(friends.get(i).mUser)) Toast.makeText(this, "You already have this person added.", Toast.LENGTH_SHORT).show();
+            }
+
             ref.child("uids").child(nUsername).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

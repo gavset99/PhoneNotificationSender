@@ -1,6 +1,7 @@
 package com.phonesender.gavnmandy.mandyphonesender;
 
 import android.content.Context;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -48,6 +51,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 StaticHolder.targetUser = mFriends.get(holder.getAdapterPosition());
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                ref.child("target-users").child(StaticHolder.currentUser.mUID).setValue(holder.getAdapterPosition());
                 Toast.makeText(mContext, StaticHolder.targetUser.mName + " is now your target user.", Toast.LENGTH_SHORT).show();
             }
         });

@@ -27,11 +27,15 @@ public class NewUserActivity extends AppCompatActivity {
         usernameEditText = findViewById(R.id.usernameEditText);
         nameEditText = findViewById(R.id.nameEditText);
 
+        Toast.makeText(this, "You must register yourself to use this app.", Toast.LENGTH_SHORT).show();
+
+
     }
 
 
     public void CreateUser(View v){
         String nUsername, nName;
+
 
         nUsername = usernameEditText.getText().toString();
         nName = nameEditText.getText().toString();

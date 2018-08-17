@@ -14,6 +14,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -50,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
     ChildEventListener notificationListener;
 
+
     EditText notificationBodyEditText;
+    Button sendNotificationButton, toFriendsButton;
 
 
 
@@ -67,8 +70,24 @@ public class MainActivity extends AppCompatActivity {
 
         notificationBodyEditText = findViewById(R.id.notificationBodyEditText);
 
+        sendNotificationButton = findViewById(R.id.notificationSendButton);
+
+        findViewById(R.id.toFriendsButton).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if(StaticHolder.currentUser.friends != null && StaticHolder.currentUser.friends.size() != 0)
+                    startActivity(new Intent(getApplicationContext(), FriendsListActivity.class));
+                else{
+                    Toast.makeText(getApplicationContext(), "You do not currently have any friends", Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
+
+
 
         createNotificationChannel();
+
 
     }
 
@@ -115,12 +134,6 @@ public class MainActivity extends AppCompatActivity {
             AddUserListener();
         }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                CreateNewUser();
-            }
-        }, 1500);
     }
 
     private void CreateNewUser() {
@@ -133,8 +146,29 @@ public class MainActivity extends AppCompatActivity {
         ref.child("users").child(fUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                StaticHolder.currentUser = dataSnapshot.getValue(User.class);
-                AddNotifListener();
+                User temp = dataSnapshot.getValue(User.class);
+                if(temp != null && temp != StaticHolder.currentUser) {
+                    StaticHolder.currentUser = temp;
+                    AddNotifListener();
+                    AddTargetUser();
+                }
+                else
+                    CreateNewUser();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void AddTargetUser() {
+        ref.child("target-users").child(fUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue(Integer.class) != null)
+                StaticHolder.targetUser = StaticHolder.currentUser.friends.get(dataSnapshot.getValue(Integer.class));
             }
 
             @Override
@@ -152,9 +186,12 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-
-        String notifKey = ref.child("notifications").push().getKey();
         String testNotif = notificationBodyEditText.getText().toString();
+        if(testNotif.equals("")) {
+            Toast.makeText(this, "You must enter a notification body, silly!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String notifKey = ref.child("notifications").push().getKey();
         String testTitle = "Notification from " + StaticHolder.currentUser.mUser;
 
         NotificationInfo newNotif = new NotificationInfo(notifKey, testNotif, testTitle);
@@ -164,6 +201,27 @@ public class MainActivity extends AppCompatActivity {
         childMap.put("/notifications/" + StaticHolder.targetUser.mUID + "/" + notifKey, newNotif);
 
         ref.updateChildren(childMap);
+
+        Toast.makeText(this, "Notification sent to " + StaticHolder.targetUser.mName, Toast.LENGTH_SHORT).show();
+
+        sendNotificationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "You must wait at least 10 seconds between notifications.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                sendNotificationButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        SendNotification(view);
+                    }
+                });
+            }
+        }, 10000);
     }
 
 

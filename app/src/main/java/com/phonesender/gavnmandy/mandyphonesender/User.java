@@ -16,12 +16,18 @@ public class User {
 
     public User(){
 
+        if(friends == null){
+            friends = new ArrayList<>();
+        }
     }
 
     public User(String mUID, String mName, String mUsername){
         this.mUID = mUID;
         this.mUser = mUsername;
         this.mName = mName;
+        if(friends == null){
+            friends = new ArrayList<>();
+        }
     }
 
     public void AddFriend(FriendRequest friend){
