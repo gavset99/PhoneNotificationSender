@@ -1,9 +1,7 @@
 package com.phonesender.gavnmandy.mandyphonesender;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
@@ -21,7 +19,6 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     //Variables
-    User currentUSer;
     Boolean isOnline;
 
     String CHANNEL_ID = "FriendNotif";
@@ -60,9 +56,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FirebaseCrash.log("Started App");
         setContentView(R.layout.activity_main);
-
 
         fUser = mAuth.getCurrentUser();
 
