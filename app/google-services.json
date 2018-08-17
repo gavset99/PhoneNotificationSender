@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "911168207326",
+    "firebase_url": "https://mandyphonesender.firebaseio.com",
+    "project_id": "mandyphonesender",
+    "storage_bucket": "mandyphonesender.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911168207326:android:875c7a6bf19a07b3",
+        "android_client_info": {
+          "package_name": "com.phonesender.gavnmandy.mandyphonesender"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911168207326-9mang4hkk53bdajo61vjmibsmj5hnjkl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.phonesender.gavnmandy.mandyphonesender",
+            "certificate_hash": "930fa1bf6e7ac2e74fa95e9b61b8089953d123dd"
+          }
+        },
+        {
+          "client_id": "911168207326-8r5acc7i4kpnmpvbblac7fu6f49isl9o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAR8YHRQ3DGan5-Nsrftf2rgfG0yIIdv2o"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911168207326-8r5acc7i4kpnmpvbblac7fu6f49isl9o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
